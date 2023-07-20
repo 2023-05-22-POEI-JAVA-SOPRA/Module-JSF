@@ -11,7 +11,7 @@
 <body>
 	User List Page
 	<a href="/CRUD-JSF/User/create.p">Hello</a>
-	</form>
+
 	<table>
 		<thead>
 			<tr>
@@ -28,7 +28,10 @@
 					<td>${user.name}</td>
 					<td>${user.password}</td>
 					<td>${user.age}</td>
-					<td><button>ClickMe</button></td>
+					<td>
+						<a href="/CRUD-JSF/User/delete.p?id=${user.id}">Delete</a>
+						<a href="/CRUD-JSF/User/edit.p?id=${user.id}">Edit</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

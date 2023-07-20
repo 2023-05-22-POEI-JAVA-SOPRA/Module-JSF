@@ -25,25 +25,31 @@ public class UserController extends HttpServlet {
 		System.out.println( path);
 		
 		switch (path) {
-		case "/User/store.p":
 		case "/User/index.p": {
 			request.setAttribute("users", userService.getAll() );
 			request.getRequestDispatcher("/indexUser.jsp").forward(request, response);
 			break;
 		}
+		case "/User/delete.p": {
+			int id = Integer.parseInt( request.getParameter("id"));
+			userService.delete(id);
+			response.sendRedirect("/CRUD-JSF/User/index.p");
+
+			break;
+		}
 		case "/User/edit.p": {
+			int id = Integer.parseInt( request.getParameter("id"));
+			User u = userService.getById(id);
+			request.setAttribute("user", u);
 			request.getRequestDispatcher("/editUser.jsp").forward(request, response);
-			System.out.println("Display Edit page");
 			break;
 		}
 		case "/User/create.p": {
 			request.getRequestDispatcher("/createUser.jsp").forward(request, response);
-			System.out.println("Display Create page");
 			break;
 		}
 		default:
 			request.getRequestDispatcher("/NotFound.jsp").forward(request, response);
-			System.out.println("Display 404 Not found page");
 			break;
 		}
 		
@@ -66,8 +72,21 @@ public class UserController extends HttpServlet {
 			
 			User u = new User(email, login, name, password, age);
 			userService.create(u);
+			response.sendRedirect("/CRUD-JSF/User/index.p");
+			break;
+		}
+		case "/User/update.p":{
+			String email = request.getParameter("email");
+			String login = request.getParameter("login");
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			int age = Integer.parseInt( request.getParameter("age") );
+			User u = new User(email, login, name, password, age);
 			
-			doGet(request, response);
+			int id = Integer.parseInt( request.getParameter("id") );
+			
+			userService.update(id, u);
+			response.sendRedirect("/CRUD-JSF/User/index.p");
 			break;
 		}
 		default:
