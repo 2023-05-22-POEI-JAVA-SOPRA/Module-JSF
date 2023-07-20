@@ -25,6 +25,7 @@ public class UserController extends HttpServlet {
 		System.out.println( path);
 		
 		switch (path) {
+		case "/User/store.p":
 		case "/User/index.p": {
 			request.setAttribute("users", userService.getAll() );
 			request.getRequestDispatcher("/indexUser.jsp").forward(request, response);
@@ -51,7 +52,29 @@ public class UserController extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String path = request.getServletPath();
+		
+		System.out.println("In DoPost");
+		
+		switch (path) {
+		case "/User/store.p": {
+			String email = request.getParameter("email");
+			String login = request.getParameter("login");
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			int age = Integer.parseInt( request.getParameter("age") );
+			
+			User u = new User(email, login, name, password, age);
+			userService.create(u);
+			
+			doGet(request, response);
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + path);
+		}
+		
+		
 	}
 
 }
