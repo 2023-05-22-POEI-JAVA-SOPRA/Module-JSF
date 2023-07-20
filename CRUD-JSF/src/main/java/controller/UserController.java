@@ -26,7 +26,16 @@ public class UserController extends HttpServlet {
 		
 		switch (path) {
 		case "/User/index.p": {
-			request.setAttribute("users", userService.getAll() );
+			String search = request.getParameter("search");
+			
+			System.out.println(search);
+			
+			if (search == null) {
+				request.setAttribute("users", userService.getAll() );
+			} else {
+				request.setAttribute("users", userService.getByEmailLike(search));
+			}
+			
 			request.getRequestDispatcher("/indexUser.jsp").forward(request, response);
 			break;
 		}

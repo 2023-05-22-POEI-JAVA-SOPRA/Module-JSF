@@ -40,13 +40,35 @@ public class UserService {
 		return u;
 	}
 	
+	public List<User> getByEmailLike(String search) {
+		List<User> users = null;
+		try {
+			emf = Persistence.createEntityManagerFactory(persistenceName);
+			em = emf.createEntityManager();
+			
+			users = em.createQuery("From User WHERE email LIKE :email")
+					.setParameter("email", "%" + search + "%")
+					.getResultList();
+			
+		} finally {
+			if (emf != null) {
+				emf.close();
+			}
+			if (em != null) {
+				em.close();
+			}
+			
+		}
+		return users;
+	}
+	
 	public List<User> getAll(){
 		List<User> users = null;
 		try {
 			emf = Persistence.createEntityManagerFactory(persistenceName);
 			em = emf.createEntityManager();
 			
-			users = em.createQuery("From User WHERE email = ?").getResultList();
+			users = em.createQuery("From User").getResultList();
 			
 		} finally {
 			if (emf != null) {
@@ -138,5 +160,8 @@ public class UserService {
 			}
 		}
 	}
-	
+
+
+
+
 }
