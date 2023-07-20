@@ -46,7 +46,7 @@ public class UserService {
 			emf = Persistence.createEntityManagerFactory(persistenceName);
 			em = emf.createEntityManager();
 			
-			users = em.createQuery("From User").getResultList();
+			users = em.createQuery("From User WHERE email = ?").getResultList();
 			
 		} finally {
 			if (emf != null) {

@@ -33,8 +33,17 @@ public class ArticleController extends HttpServlet {
 			break;
 		}
 		case "/Article/edit.a": {
+			int id = Integer.parseInt( request.getParameter("id"));
+			
+			request.setAttribute("article",  articleService.getById(id));
 			request.getRequestDispatcher("/editArticle.jsp").forward(request, response);
-			System.out.println("Display Edit page");
+			break;
+		}
+		case "/Article/delete.a": {
+			int id = Integer.parseInt( request.getParameter("id"));
+			
+			articleService.delete(id);
+			response.sendRedirect("/CRUD-JSF/Article/index.a");
 			break;
 		}
 		case "/Article/create.a": {
@@ -66,6 +75,18 @@ public class ArticleController extends HttpServlet {
 			Article a = new Article(description, brand, price);
 			
 			articleService.create(a);
+			response.sendRedirect("/CRUD-JSF/Article/index.a");
+			break;
+		}
+		case "/Article/update.a": {
+			String description = request.getParameter("description");
+			String brand = request.getParameter("brand");
+			float price = Float.parseFloat(request.getParameter("price"));
+			Article a = new Article(description, brand, price);
+			
+			int id = Integer.parseInt( request.getParameter("id"));
+			
+			articleService.update(id, a);
 			response.sendRedirect("/CRUD-JSF/Article/index.a");
 			break;
 		}

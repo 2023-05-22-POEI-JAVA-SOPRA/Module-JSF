@@ -26,7 +26,10 @@
 					<td>${article.description}</td>
 					<td>${article.brand}</td>
 					<td>${article.price}</td>
-					<td><a href="#"></a></td>
+					<td>
+						<a href="/CRUD-JSF/Article/delete.a?id=${article.id}">Delete</a>
+						<a href="/CRUD-JSF/Article/edit.a?id=${article.id}">Edit</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
